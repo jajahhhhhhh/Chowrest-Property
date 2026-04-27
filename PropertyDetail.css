@@ -1,0 +1,163 @@
+.detail-page { min-height: 100vh; padding-bottom: 80px; }
+
+.detail-loading, .detail-notfound {
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+  gap: 16px;
+}
+.detail-skeleton {
+  width: 100%;
+  height: 60vh;
+  background: var(--surface);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.detail-gallery {
+  position: relative;
+  height: 60vh;
+  min-height: 360px;
+  background: var(--surface);
+  overflow: hidden;
+}
+.detail-gallery__main {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.detail-gallery__thumbs {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+.detail-gallery__thumb {
+  width: 68px;
+  height: 48px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.15s;
+}
+.detail-gallery__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.detail-gallery__thumb--active { border-color: var(--gold); }
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 40px;
+  padding-top: 40px;
+  align-items: start;
+}
+
+.detail-badges { display: flex; gap: 8px; margin-bottom: 14px; }
+.detail-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  color: var(--text);
+  margin: 0 0 12px;
+  line-height: 1.15;
+}
+.detail-location { font-size: 0.88rem; color: var(--text-muted); margin: 0 0 20px; }
+.detail-price {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--gold);
+  margin-bottom: 28px;
+}
+
+.detail-specs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.detail-spec {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 18px;
+}
+.detail-spec__icon { font-size: 1.2rem; }
+.detail-spec strong { font-size: 1.3rem; color: var(--text); font-family: var(--font-display); }
+.detail-spec span { font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-mono); }
+
+.detail-section { margin-bottom: 32px; }
+.detail-section__title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  margin: 0 0 14px;
+}
+.detail-description {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.detail-amenities { display: flex; flex-wrap: wrap; gap: 10px; }
+.detail-amenity {
+  padding: 6px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ── Inquiry ── */
+.detail-sidebar { position: sticky; top: 80px; }
+.inquiry-card {
+  background: var(--surface);
+  border: 1px solid rgba(212, 175, 100, 0.2);
+  border-radius: 20px;
+  padding: 28px;
+}
+.inquiry-card__title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--text);
+  margin: 0 0 20px;
+}
+.inquiry-form { display: flex; flex-direction: column; gap: 12px; }
+.inquiry-input, .inquiry-textarea {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  resize: vertical;
+}
+.inquiry-input:focus, .inquiry-textarea:focus { border-color: var(--gold); }
+.inquiry-input::placeholder, .inquiry-textarea::placeholder { color: var(--text-dim); }
+.inquiry-submit { width: 100%; margin-top: 4px; }
+.inquiry-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+.inquiry-success {
+  text-align: center;
+  padding: 24px;
+  color: var(--green);
+}
+.inquiry-success span { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+.inquiry-success p { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+
+@media (max-width: 900px) {
+  .detail-layout { grid-template-columns: 1fr; }
+  .detail-sidebar { position: static; }
+  .detail-gallery { height: 45vw; min-height: 240px; }
+}
