@@ -118,10 +118,10 @@ export const usePropertyStore = create<PropertyState>((set, get) => ({
         images: formData.images,
         amenities: formData.amenities,
       }
-      
+
       // Create in Airtable
       await createPropertyInAirtable(property)
-      
+
       // Refresh all properties
       await get().fetchProperties()
       return null
@@ -162,7 +162,7 @@ export const usePropertyStore = create<PropertyState>((set, get) => ({
     const { properties, filters } = get()
     return properties.filter(p => {
       if (filters.search && !p.title.toLowerCase().includes(filters.search.toLowerCase()) &&
-          !p.city?.toLowerCase().includes(filters.search.toLowerCase())) return false
+        !p.city?.toLowerCase().includes(filters.search.toLowerCase())) return false
       if (filters.type && p.type !== filters.type) return false
       if (filters.status && p.status !== filters.status) return false
       if (filters.minPrice && p.price < parseFloat(filters.minPrice)) return false
