@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { supabase } from '@/lib/supabase'
 import { DEMO_PROPERTIES } from '@/lib/demoData'
+import { fetchPropertiesFromAirtable, createPropertyInAirtable } from '@/lib/airtable'
 import type { Property, PropertyFilters, PropertyFormData } from '@/types'
 
 interface PropertyState {
@@ -42,12 +43,9 @@ export const usePropertyStore = create<PropertyState>((set, get) => ({
   fetchProperties: async () => {
     set({ loading: true, error: null })
     try {
-      const { data, error } = await supabase
-        .from('properties')
-        .select('*, profiles(full_name, avatar_url, phone)')
-        .order('created_at', { ascending: false })
-      if (error) throw error
-      set({ properties: (data as Property[]) ?? [] })
+      // Primary source: Airtable
+      const properties = await fetchPropertiesFromAirtable()
+      set({ properties })
     } catch {
       // Fallback to demo data
       set({ properties: DEMO_PROPERTIES })
@@ -58,13 +56,13 @@ export const usePropertyStore = create<PropertyState>((set, get) => ({
 
   fetchFeatured: async () => {
     try {
-      const { data, error } = await supabase
-        .from('properties')
-        .select('*, profiles(full_name, avatar_url, phone)')
-        .eq('featured', true)
-        .limit(6)
-      if (error) throw error
-      set({ featured: (data as Property[]) ?? [] })
+      // Get all properties from Airtable and mark high-value ones as featured
+      const properties = await fetchPropertiesFromAirtable()
+      // Feature properties with price > 5M or villas
+      const featured = properties
+        .filter(p => (p.price > 5000000 || p.type === 'villa') && p.status === 'for_sale')
+        .slice(0, 6)
+      set({ featured })
     } catch {
       set({ featured: DEMO_PROPERTIES.filter(p => p.featured) })
     }
@@ -73,13 +71,9 @@ export const usePropertyStore = create<PropertyState>((set, get) => ({
   fetchById: async (id: string) => {
     set({ loading: true })
     try {
-      const { data, error } = await supabase
-        .from('properties')
-        .select('*, profiles(full_name, avatar_url, phone)')
-        .eq('id', id)
-        .single()
-      if (error) throw error
-      set({ current: data as Property })
+      const properties = await fetchPropertiesFromAirtable()
+      const property = properties.find(p => p.id === id) ?? null
+      set({ current: property })
     } catch {
       const demo = DEMO_PROPERTIES.find(p => p.id === id) ?? null
       set({ current: demo })
@@ -91,13 +85,10 @@ export const usePropertyStore = create<PropertyState>((set, get) => ({
   fetchByAgent: async (agentId: string) => {
     set({ loading: true })
     try {
-      const { data, error } = await supabase
-        .from('properties')
-        .select('*')
-        .eq('agent_id', agentId)
-        .order('created_at', { ascending: false })
-      if (error) throw error
-      set({ properties: (data as Property[]) ?? [] })
+      // For now, agents can only see demo properties
+      // In production, you'd query a separate agent_listings table in Airtable
+      const agentListings = DEMO_PROPERTIES.filter(p => p.agent_id === agentId)
+      set({ properties: agentListings })
     } catch {
       set({ properties: DEMO_PROPERTIES })
     } finally {
@@ -105,10 +96,10 @@ export const usePropertyStore = create<PropertyState>((set, get) => ({
     }
   },
 
-  createProperty: async (formData, agentId) => {
+  createProperty: async (formData, _agentId) => {
     try {
-      const payload = {
-        agent_id: agentId,
+      // Transform form data to Property format
+      const property: Omit<Property, 'id' | 'created_at' | 'updated_at' | 'agent_id' | 'profiles'> = {
         title: formData.title,
         description: formData.description,
         type: formData.type,
@@ -120,15 +111,22 @@ export const usePropertyStore = create<PropertyState>((set, get) => ({
         address: formData.address,
         city: formData.city,
         province: formData.province,
+        country: 'Thailand',
+        lat: null,
+        lng: null,
+        featured: false,
         images: formData.images,
         amenities: formData.amenities,
       }
-      const { error } = await supabase.from('properties').insert(payload)
-      if (error) return error.message
-      await get().fetchByAgent(agentId)
+      
+      // Create in Airtable
+      await createPropertyInAirtable(property)
+      
+      // Refresh all properties
+      await get().fetchProperties()
       return null
-    } catch {
-      return 'Failed to create property.'
+    } catch (error) {
+      return error instanceof Error ? error.message : 'Failed to create property.'
     }
   },
 
