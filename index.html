@@ -273,7 +273,7 @@ footer { padding: 60px 0 50px; border-top: 1px solid var(--border); }
   </div>
 </footer>
 
-<script src="airtable.js"></script>
+<script type="module" src="airtable.js"></script>
 <script>
 const io = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
@@ -313,5 +313,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 })();
 </script>
 
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>

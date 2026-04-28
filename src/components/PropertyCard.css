@@ -1,0 +1,90 @@
+.prop-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: var(--surface, #fff);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border, #e8e3d8);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.prop-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+}
+
+/* Photo */
+.prop-card__photo {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--border, #e8e3d8);
+}
+.prop-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+  display: block;
+}
+.prop-card:hover .prop-card__photo img {
+  transform: scale(1.05);
+}
+
+/* Badges */
+.prop-card__badges {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.prop-card__badge {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(26,24,21,0.7);
+  color: #fff;
+  backdrop-filter: blur(6px);
+}
+.prop-card__badge--for_sale  { background: rgba(90,127,111,0.9); }
+.prop-card__badge--for_rent  { background: rgba(197,107,66,0.9); }
+.prop-card__badge--sold,
+.prop-card__badge--rented    { background: rgba(80,80,80,0.85); }
+.prop-card__badge--off_market{ background: rgba(120,100,80,0.85); }
+.prop-card__badge--type      { background: rgba(26,24,21,0.55); }
+
+/* Body */
+.prop-card__body {
+  padding: 18px 20px 20px;
+}
+.prop-card__location {
+  font-size: 12px;
+  color: var(--text-soft, #a39d8e);
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.prop-card__title {
+  font-family: var(--serif, Georgia, serif);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  color: var(--text, #1a1815);
+}
+.prop-card__price {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text, #1a1815);
+  margin-bottom: 6px;
+}
+.prop-card__specs {
+  font-size: 13px;
+  color: var(--text-muted, #6f6a5e);
+}
