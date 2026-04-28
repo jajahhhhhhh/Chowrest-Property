@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { usePropertyStore } from '@/store/propertyStore'
 import { PropertyCard } from '@/components/PropertyCard'
-import 'Home.css'
+import './Home.css'
 
 const STATS = [
   { num: '340+', label: 'Active Listings' },
@@ -147,7 +147,7 @@ export default function Home() {
             <div className="footer__links">
               <Link to="/listings">Listings</Link>
               <Link to="/auth">Sign In</Link>
-              <a href="mailto:hello@chowtorest.com">Contact</a>
+              <a href="mailto:ch_company@howtoniksen.com">Contact</a>
             </div>
           </div>
           <p className="footer__copy">© 2026 ChowtoRest. All rights reserved.</p>
