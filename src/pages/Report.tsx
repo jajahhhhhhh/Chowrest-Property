@@ -47,7 +47,7 @@ const kpis = [
   { label: 'Q1 Revenue', value: '฿558,000', sub: '+24% vs Q1 2025', up: true },
   { label: 'Avg Occupancy', value: '84.7%', sub: '+13pts vs Q1 2025', up: true },
   { label: 'Avg Nightly Rate', value: '฿10,467', sub: '+18% vs Q1 2025', up: true },
-  { label: 'Net Owner Income', value: '฿427,000', sub: '76.5% net margin', up: true },
+  { label: 'Net Owner Income', value: '฿338,800', sub: '60.7% net margin', up: true },
 ]
 const TEAL = '#3d7a6a'
 const GOLD = '#c9a84c'
