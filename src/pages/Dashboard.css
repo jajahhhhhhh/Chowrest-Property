@@ -222,3 +222,6 @@
   .form-field--full { grid-column: 1; }
   .dash-stats { gap: 12px; }
 }
+
+.dash-action-btn--report { background: rgba(61,122,106,0.12); color: #3d7a6a; border-color: rgba(61,122,106,0.3); }
+.dash-action-btn--report:hover { background: rgba(61,122,106,0.25); }

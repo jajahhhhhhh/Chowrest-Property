@@ -134,6 +134,7 @@ export default function Dashboard() {
                         <td>
                           <div className="dash-actions">
                             <Link to={`/listings/${p.id}`} className="dash-action-btn">View</Link>
+                            <Link to={`/report/${p.id}`} className="dash-action-btn dash-action-btn--report">Report</Link>
                             <button
                               className="dash-action-btn dash-action-btn--danger"
                               onClick={async () => {

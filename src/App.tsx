@@ -5,6 +5,7 @@ import Auth from '@/pages/Auth'
 import Listings from '@/pages/Listings'
 import PropertyDetail from '@/pages/PropertyDetail'
 import Dashboard from '@/pages/Dashboard'
+import Report from '@/pages/Report'
 
 function AgentRoute({ children }: { children: React.ReactNode }) {
   const { user, profile, initialized } = useAuthStore()
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/listings"     element={<Listings />} />
         <Route path="/listings/:id" element={<PropertyDetail />} />
         <Route path="/dashboard"    element={<AgentRoute><Dashboard /></AgentRoute>} />
+        <Route path="/report/:id"   element={<AgentRoute><Report /></AgentRoute>} />
         <Route path="*"             element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
