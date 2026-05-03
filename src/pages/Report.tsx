@@ -107,13 +107,16 @@ export default function Report() {
   const [activeSection, setActiveSection] = useState('executive')
 
   useEffect(() => {
-    if (id) fetchById(id)
-  }, [id, fetchById])
+    if (initialized && user && profile?.role === 'agent' && id) {
+      fetchById(id)
+    }
+  }, [id, initialized, user, profile?.role, fetchById])
 
   if (!initialized) return <div className="rpt-loading">Loading…</div>
   if (!user || profile?.role !== 'agent') return <Navigate to="/auth" replace />
   if (loading) return <div className="rpt-loading">Loading report…</div>
   if (!current) return <div className="rpt-loading">Property not found.</div>
+  if (current.agent_id !== user.id) return <div className="rpt-loading">Property not found.</div>
 
   const p: Property = current
   const cover = p.images[0] ?? ''
